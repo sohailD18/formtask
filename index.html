@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Task</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script defer src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+<body class="bg-gray-100 p-6 flex flex-col items-center min-h-screen">
+    <div class="w-full max-w-md bg-white p-6 sm:p-8 rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold mb-6 text-center">FORM TASK</h2>
+        <form action="/add" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()" class="space-y-4">
+            <div class="flex flex-col">
+                <label class="font-semibold">First Name:</label>
+                <input type="text" id="first_name" name="first_name" required class="w-full p-2 border rounded">
+            </div>
+            
+            <div class="flex flex-col">
+                <label class="font-semibold">DOB:</label>
+                <input type="date" id="dob" name="dob" onchange="calculateAge()" required class="w-full p-2 border rounded">
+            </div>
+            
+            <div class="flex flex-col">
+                <label class="font-semibold">Age:</label>
+                <input type="text" id="age" name="age" readonly class="w-full p-2 border rounded bg-gray-200">
+            </div>
+            
+            <div class="flex flex-col">
+                <label class="font-semibold">Gender:</label>
+                <div class="flex gap-4">
+                    <label><input type="radio" name="gender" value="male"> Male</label>
+                    <label><input type="radio" name="gender" value="female"> Female</label>
+                    <label><input type="radio" name="gender" value="others"> Others</label>
+                </div>
+            </div>
+            
+            <div class="flex flex-col">
+                <label class="font-semibold">Email:</label>
+                <input type="email" id="email" name="email" required class="w-full p-2 border rounded">
+            </div>
+            
+            <div class="flex flex-col">
+                <label class="font-semibold">Password:</label>
+                <input type="password" id="password" name="password" required class="w-full p-2 border rounded">
+            </div>
+            
+            <div class="flex flex-col">
+                <label class="font-semibold">Confirm Password:</label>
+                <input type="password" id="confirm_password" name="confirm_password" required class="w-full p-2 border rounded">
+            </div>
+            
+            <div class="flex flex-col">
+                <label class="font-semibold">Phone:</label>
+                <input type="tel" id="phone" name="phone" required class="w-full p-2 border rounded">
+            </div>
+            
+            <div class="flex flex-col">
+                <label class="font-semibold">State:</label>
+                <select id="state" name="state" required class="w-full p-2 border rounded">
+                    <option value="">Select State</option>
+                    <option value="Karnataka">Karnataka</option>
+                    <option value="Tamil Nadu">Tamil Nadu</option>
+                    <option value="Kerala">Kerala</option>
+                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                </select>
+            </div>
+            
+            <div class="flex flex-col">
+                <label class="font-semibold">Courses:</label>
+                <select id="courses" name="courses" required class="w-full p-2 border rounded">
+                    <option value="">Select Course</option>
+                    <option value="Java Full Stack">Java Full Stack</option>
+                    <option value="Web Technology">Web Technology</option>
+                    <option value="UI/UX">UI/UX</option>
+                    <option value="Cyber Security">Cyber Security</option>
+                </select>
+            </div>
+            
+            <div class="flex flex-col">
+                <label class="font-semibold">Upload Photo:</label>
+                <input type="file" id="photo" name="photo" accept=".jpg, .png" class="w-full p-2 border rounded">
+            </div>
+            
+            <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Register</button>
+        </form>
+    </div>
+
+    <div class="flex flex-col items-center w-full max-w-md bg-white p-6 sm:p-8 rounded-lg shadow-md mt-6">
+        <h2 class="text-2xl font-bold mb-6 text-center">Submitted Users</h2>
+        <ul class="flex flex-col w-full space-y-2">
+            {% for user in users %}
+                <li class="flex justify-between items-center bg-gray-100 p-2 rounded w-full">
+                    <div class="flex">
+                        <span>{{ user[1] }} ({{ user[5] }})</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <div class="flex space-x-2">
+                            <form action="/edit/{{ user[0] }}" method="GET">
+                                <button type="submit" class="text-blue-500 hover:underline">Edit</button>
+                            </form>
+                            <form action="/delete/{{ user[0] }}" method="POST">
+                                <button type="submit" class="text-red-500 hover:underline">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    
+    
+</body>
+</html>
